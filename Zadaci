@@ -1,0 +1,71 @@
+<?php
+
+$zaposlenici = ['Ivan', 'Marta', 'Lidija', 'Petar'];
+
+$place = [
+    'Ivan' => 9980,
+    'Marta' => null,
+    'Lidija' => 11230,
+    'Petar' => 11020
+];
+
+/*1. Prođi poljem `$zaposlenici` te ispiši svaki element malim slovom.
+$zaposlenici = array_map('nestedLowercase', $zaposlenici);*/
+
+function nestedLowercase($value) {
+    if (is_array($value)) {
+        return array_map('nestedLowercase', $value);
+    }
+    return strtolower($value);
+}
+
+foreach($zaposlenici as $zaposlenici)
+{echo $zaposlenici . '<br />';}
+
+/*2. Prođi poljem `$place` te ispiši sljedeću rečenicu za svaki element: "Zaposlenik A ima plaću B."
+    
+    Zaposlenike koji nemaju informaciju o plaći (`null`) ignoriraj/filtriraj u ispisu.*/
+
+   foreach($place as $kljuc => $vrijednost)
+
+{
+    if($vrijednost > 0 )
+    {
+        echo 'Zaposlenik ' . $kljuc . ' ima plaću ' .$vrijednost . '<br />';
+    }
+}
+
+/*3.Prođi poljem $place te ispiši sve one zaposlenike koji imaju plaću ispod 10 000 kuna ili nemaju informaciju o plaći (null).
+foreach($place as $kljuc => $vrijednost)
+
+{
+    if($vrijednost < 10000 )
+    {
+        echo 'Zaposlenik ' . $kljuc . ' ima plaću ' .$vrijednost . '<br />';
+    }
+}
+
+/*4. Napiši funkciju proizvoljnog imena koja kao parametar prima asocijativno polje (poput $place), a vraća koliko ima zaposlenika u varijabli. Napiši i primjer poziva funkcije.*/
+function broj_zaposlenika($zaposlenici){
+    foreach($zaposlenici as $zaposlenici)
+    {echo $zaposlenici . '<br />';}
+}
+$rezic = broj_zaposlenika($zaposlenici);
+echo $rezic;*/
+
+/*5. Napiši PHP kod koji će se spojiti na VVG (ili lokalnu) bazu te ispisati iz relacije vehicles sva Audi vozila.*/
+$host = 'bp.vvg.hr';
+$username = 'student77210536';
+$password = 'vvglozinka0155';
+$dbname = 'student77210536';
+
+$db = new PDO("mysql:host=$host;dbname=$dbname;port=5432", $username, $password);
+$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+$query = $db->query("SELECT * FROM vehicles WHERE car_type LIKE  '%Audi'");
+$result = $query->fetchAll();
+
+foreach($result as $row) {
+    echo $row['car_type'] . '&nbsp;' . $row['car_model'] . '<br />';
+}
+?>
